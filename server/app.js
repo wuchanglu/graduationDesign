@@ -1,33 +1,44 @@
 const Koa = require('koa')
-
-// 注意require('koa-router')返回的是函数:
-const router = require('koa-router')()
-// 引入post请求体处理插件
-const bodyPareser = require('koa-bodyparser')
 const app = new Koa()
-app.use(bodyPareser())
-router.get('/', async (ctx, next) => {
-  ctx.response.body = `<h1>Index</h1>
-      <form action="/signin" method="post">
-          <p>Name: <input name="name" value="koa"></p>
-          <p>Password: <input name="password" type="password"></p>
-          <p><input type="submit" value="Submit"></p>
-      </form>`
-})
-router.post('/signin', async (ctx, next) => {
-  var name = ctx.request.body.name || '',
-    password = ctx.request.body.password || ''
-  console.log(`signin with name: ${name}, password: ${password}`)
-  if (name === 'koa' && password === '12345') {
-    const res = "{ data: {id: 'aaaa',name: '吴昌禄'} }"
-    ctx.response.body = res
-  } else {
-    ctx.response.body = `<h1>Login failed!</h1>
-      <p><a href="/">Try again</a></p>`
-  }
-})
-// 使用写好的路由处理函数
-app.use(router.routes())
+const views = require('koa-views')
+const json = require('koa-json')
+const onerror = require('koa-onerror')
+const bodyparser = require('koa-bodyparser')
+const logger = require('koa-logger')
 
-app.listen(3000)
-console.log('app started at port 3000...')
+const index = require('./routes/index')
+const users = require('./routes/users')
+
+// error handler
+onerror(app)
+
+// middlewares
+app.use(bodyparser({
+  enableTypes:['json', 'form', 'text']
+}))
+app.use(json())
+app.use(logger())
+app.use(require('koa-static')(__dirname + '/public'))
+
+app.use(views(__dirname + '/views', {
+  extension: 'pug'
+}))
+
+// logger
+app.use(async (ctx, next) => {
+  const start = new Date()
+  await next()
+  const ms = new Date() - start
+  console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+})
+
+// routes
+app.use(index.routes(), index.allowedMethods())
+app.use(users.routes(), users.allowedMethods())
+
+// error-handling
+app.on('error', (err, ctx) => {
+  console.error('server error', err, ctx)
+});
+
+module.exports = app

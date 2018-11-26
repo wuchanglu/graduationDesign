@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       buttonList: [
         {
@@ -118,7 +118,7 @@ export default {
     }
   },
   methods: {
-    onLinkButtonClick(item) {
+    onLinkButtonClick (item) {
       // this.$router.push({
       //   name: item.linkName
       // })
@@ -129,6 +129,19 @@ export default {
         }
       })
     }
+  },
+  created () {
+    this.$api.post(
+      'schedule_listForStudent',
+      {
+        campusid: 4210,
+        stuid: 1561231363,
+        termCode: '171802'
+      },
+      response => {
+        console.log(response)
+      }
+    )
   }
 }
 </script>
