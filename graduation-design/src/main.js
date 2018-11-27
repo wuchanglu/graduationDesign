@@ -4,10 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Api from './axios.js'
+import IEcharts from 'vue-echarts-v3/src/full'
 Vue.prototype.$api = Api
 
 Vue.config.productionTip = false
-
+Vue.component('i-echarts', IEcharts)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

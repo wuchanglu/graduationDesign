@@ -15,9 +15,11 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "echarts": "^4.2.0-rc.2",
     "node-sass": "^4.10.0",
     "sass-loader": "^7.1.0",
     "vue": "^2.5.2",
+    "vue-echarts-v3": "^1.0.19",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {

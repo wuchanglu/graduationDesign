@@ -1,7 +1,7 @@
 import axios from 'axios'
 let http = axios.create({
-  // baseURL: 'http://weixt.spacetech.com.cn:8090/weixt/api',
-  baseURL: '/weixt/api',
+  baseURL: 'http://localhost:3000',
+  // baseURL: '/weixt/api',
   withCredentials: true,
   headers: {
     // 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
