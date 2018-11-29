@@ -5,8 +5,11 @@ import App from './App'
 import router from './router'
 import Api from './axios.js'
 import IEcharts from 'vue-echarts-v3/src/full'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 Vue.prototype.$api = Api
 
+Vue.use(ElementUI)
 Vue.config.productionTip = false
 Vue.component('i-echarts', IEcharts)
 /* eslint-disable no-new */

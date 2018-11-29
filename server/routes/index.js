@@ -1,85 +1,69 @@
 const router = require('koa-router')()
 const http = require('http')
 const fetch = require('node-fetch')
+const xlsx = require('node-xlsx')
+const path = require('path')
+const Monk = require('monk')
+const db = new Monk('localhost/region') //链接到库
 
 router.get('/', async (ctx, next) => {
+  var http = require('http')
+
   // const data = {
   //   name: 'asdas'
   // }
   // ctx.body = JSON.stringify(data)
-
-  // var querystring = require('querystring')
-  // var data = JSON.stringify({
-  //   accesskey: 'MTGZNJC3MZM3OTYXNTQZMZA5NZE1NTKZ',
-  //   citycodes: ['101190101']
-  // })
-  // var options = {
-  //   method: 'POST',
-  //   hostname: 'service.envicloud.cn',
-  //   port: '8082',
-  //   path: '/v2/weatherforecast'
-  // }
-
-  let result
-  // var req = http.request(options, (res)=> {
-  //   console.log('STATUS: ' + res.statusCode)
-  //   console.log('HEADERS: ' + JSON.stringify(res.headers))
-  //   res.setEncoding('utf8')
-  //   res.on('data', function(chunk) {
-  //     console.log('BODY: ' + chunk)
-  //     result = chunk
-  //     //JSON.parse(chunk)
-  //   })
-  // })
-  // req.on('error', function(e) {
-  //   console.log(e.message)
-  // })
-  // req.write(data)
-  // await req.end()
-
-
+  
+  // 可以用的请求方式
   // await fetch(
-  //   'http://service.envicloud.cn:8082/v2/weatherforecast/MTGZNJC3MZM3OTYXNTQZMZA5NZE1NTKZ/101190101'
+  //   'http://61.147.166.205:8082/v2/weatherforecast/MTGZNJC3MZM3OTYXNTQZMZA5NZE1NTKZ/101190101'
+  // )
+  //   .then(res => res.text())
+  //   .then(data => {
+  //     console.log(data,'111')
+  //     ctx.body = data
+  //   })
+  //   .catch(err => console.error(err))
+
+  // let url = 'http://www.nmc.cn/f/rest/real/58457?_=' + (new Date()).getTime()
+  // await fetch(
+  //   url
   // )
   //   .then(res => res.json())
   //   .then(data => {
   //     console.log(data)
+  //     ctx.body = data
   //   })
   //   .catch(err => console.error(err))
 
-  await fetch(
-    'http://www.hzqx.com/hztq/data/actualNewestData/58457.json'
-  )
-    .then(res => res.json())
-    .then(data => {
-      console.log(data)
-      ctx.body = data
-    })
-    .catch(err => console.error(err))
+  //   const req = http.get(
+  //     'http://service.envicloud.cn:8082/v2/weatherforecast/MTGZNJC3MZM3OTYXNTQZMZA5NZE1NTKZ/101190101',
+  //     res => {
+  //       console.log('STATUS: ' + res.statusCode)
+  //       console.log('HEADERS: ' + JSON.stringify(res.headers))
+  //       res.setEncoding('utf8')
+  //       res.on('data', async (chunk)=> {
+  //         console.log('BODY: ' + chunk)
+  //         ctx.body = chunk
 
-
-
-  // const req = http.get(
-  //   'http://service.envicloud.cn:8082/v2/weatherforecast/MTGZNJC3MZM3OTYXNTQZMZA5NZE1NTKZ/101190101',
-  //   res => {
-  //     console.log('STATUS: ' + res.statusCode)
-  //     console.log('HEADERS: ' + JSON.stringify(res.headers))
-  //     res.setEncoding('utf8')
-  //     res.on('data', async (chunk)=> {
-  //       console.log('BODY: ' + chunk)
-  //       ctx.body = chunk
-
-  //       //JSON.parse(chunk)
-  //     })
-  //     req.on('error', function(e) {
-  //       console.log(e.message)
-  //     })
-  //   }
-  // )
+  //         //JSON.parse(chunk)
+  //       })
+  //       req.on('error', function(e) {
+  //         console.log(e.message)
+  //       })
+  //     }
+  //   )
 })
 
 router.post('/string', async (ctx, next) => {
   ctx.body = 'koa2 string'
+})
+
+router.post('/api/area',async (ctx,next)=>{
+  const params = JSON.parse(ctx.request.body.apiparams).params
+  const area = db.get('area') //表
+  let result = await area.find({NAMEEN:params.NAMEEN},{AREAID:true,NAMECN:true,_id:false})
+  ctx.body = JSON.stringify(result)
 })
 
 router.post('/json', async (ctx, next) => {

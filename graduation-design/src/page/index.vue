@@ -1,10 +1,10 @@
 <template>
   <div>
-    <button v-for="item in buttonList"
+    <el-button type="primary" v-for="item in buttonList"
       :key="item.id"
       @click="onLinkButtonClick(item)">
       {{item.buttonText}}
-    </button>
+    </el-button>
     <div style="height:500px;width:600px;">
       <i-echarts :option="statistics.echartsOption"
         :loading="statistics.isLoading"
@@ -132,13 +132,14 @@ export default {
   },
   created() {
     this.$api
-      .post('json', {
-        campusid: 4210,
-        stuid: 1561231363,
-        termCode: '171802'
+      .post('api/area', {
+        NAMEEN: 'hangzhou'
       })
       .then(res => {
-        console.log(res)
+        this.$message({
+          message: '恭喜你，这是一条成功消息',
+          type: 'success'
+        })
       })
   }
 }
