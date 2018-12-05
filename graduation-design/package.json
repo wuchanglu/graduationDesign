@@ -5,13 +5,13 @@
   "author": "SC-201804261133\\Administrator <1761221407@qq.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev:test": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js --config-name test",
+    "build:test": "node build/build.js --config-name test",
     "start": "npm run dev",
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
-    "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
-    "build": "node build/build.js"
+    "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs"
   },
   "dependencies": {
     "axios": "^0.18.0",
