@@ -1,15 +1,20 @@
 <template>
-  <div>登录页</div>
+  <div>登录页
+    <xxx></xxx>
+  </div>
 </template>
 
 <script>
+import jsx from './jsx'
 export default {
-  created () {
+  components: {
+    xxx: jsx
+  },
+  created() {
     console.log(this.$route)
   }
 }
 </script>
 
 <style>
-
 </style>
