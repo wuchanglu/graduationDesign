@@ -56,7 +56,9 @@ router.get('/', async (ctx, next) => {
 })
 
 router.post('/string', async (ctx, next) => {
-  ctx.body = 'koa2 string'
+  ctx.body = JSON.stringify({
+    name: '呵呵'
+  })
 })
 
 router.post('/api/area',async (ctx,next)=>{

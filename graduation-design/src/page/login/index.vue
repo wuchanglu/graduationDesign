@@ -80,7 +80,7 @@ export default {
       }
     },
     registButtonClick() {
-      console.log()
+      this.$router.push({ name: 'registe', params: { userid: 123 } })
     }
   },
   created() {

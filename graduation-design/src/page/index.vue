@@ -1,6 +1,7 @@
 <template>
   <div>
-    <el-button type="primary" v-for="item in buttonList"
+    <el-button type="primary"
+      v-for="item in buttonList"
       :key="item.id"
       @click="onLinkButtonClick(item)">
       {{item.buttonText}}
